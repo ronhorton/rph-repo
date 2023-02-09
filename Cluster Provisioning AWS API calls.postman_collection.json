@@ -1,0 +1,1362 @@
+{
+	"info": {
+		"_postman_id": "3518a554-55fc-4c5d-bbce-d56fa00441d4",
+		"name": "Cluster Provisioning AWS API calls",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "18901816"
+	},
+	"item": [
+		{
+			"name": "login - admin-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"token\", jsonData.token)",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"description\": \"postman\",\n    \"responseType\": \"token\",\n    \"username\": \"USER NAME\",\n    \"password\": \"PASSWORD\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3-public/localProviders/local?action=login",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3-public",
+						"localProviders",
+						"local"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "login"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aws-cloud-creds-rph-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"cloudcredentialid\", jsonData.id)",
+							"",
+							"pm.test(\"Create cloud credential successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"cloudCredential\",\n    \"amazonec2credentialConfig\": {\n        \"accessKey\": \"AMAZON ACCESS KEY\",\n        \"defaultRegion\": \"us-east-2\",\n        \"secretKey\": \"AMAZON SECRET KEY\",\n        \"type\": \"amazonec2credentialconfig\"\n    },\n    \"name\": \"ec2-credentials\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/cloudcredential",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"cloudcredential"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aks-cloud-creds-rph-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"cloudcredentialid\", jsonData.id)",
+							"",
+							"pm.test(\"Create cloud credential successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"provisioning.cattle.io/cloud-credential\",\n    \"metadata\": {\n        \"generateName\": \"cc-\",\n        \"namespace\": \"fleet-default\"\n    },\n    \"_name\": \"aws-creds\",\n    \"annotations\": {\n        \"provisioning.cattle.io/driver\": \"azure\"\n    },\n    \"azurecredentialConfig\": {\n        \"environment\": \"AzurePublicCloud\",\n        \"subscriptionId\": \"8753d09e-7139-4b5a-bcd4-1c8cc4ecce26\",\n        \"clientId\": \"b3dd0cb8-b667-41eb-ac1c-15df1a84002e\",\n        \"clientSecret\": \"aXn8Q~4XzNhnH2Wxsw.vMZVNcGpvDugMDqzB6cH.\"\n    },\n    \"_type\": \"provisioning.cattle.io/cloud-credential\",\n    \"name\": \"aws-creds\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/cloudcredentials",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"cloudcredentials"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "aws-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3.2xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"100\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"ubuntu\",\n        \"subnetId\": \"subnet-ee8cac86\",\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"ec2-node-template2\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "opensuse-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"ami-04a4591e745abae13\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3.xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"90\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"ec2-user\",\n        \"subnetId\": null,\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"opensuse-node-template\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "sles15-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"ami-003b3754d4faa4bbe\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3.xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"90\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"ec2-user\",\n        \"subnetId\": null,\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"sles15-node-template\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rhel86-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"ami-053835e36b16f97d0\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3.xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"90\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"ec2-user\",\n        \"subnetId\": null,\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"rhel86-node-template\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rocky-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"ami-0c4d9511b5c351dfc\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3.xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"90\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"rocky\",\n        \"subnetId\": null,\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"rocky-node-template\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "3. create-ec2-rke1-cluster-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"clusterid\", jsonData.id)",
+							"",
+							"postman.setEnvironmentVariable(\"clustername\", jsonData.name)",
+							"",
+							"pm.test(\"Create Cluster successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"dockerRootDir\": \"/var/lib/docker\",\n    \"enableClusterAlerting\": false,\n    \"enableClusterMonitoring\": false,\n    \"enableNetworkPolicy\": false,\n    \"windowsPreferedCluster\": false,\n    \"type\": \"cluster\",\n    \"name\": \"ron-ec2-ubuntu-124\",\n    \"rancherKubernetesEngineConfig\": {\n        \"addonJobTimeout\": 45,\n        \"enableCriDockerd\": false,\n        \"ignoreDockerVersion\": true,\n        \"rotateEncryptionKey\": false,\n        \"sshAgentAuth\": false,\n        \"type\": \"rancherKubernetesEngineConfig\",\n        \"kubernetesVersion\": \"v1.24.9-rancher1-1\",\n        \"authentication\": {\n            \"strategy\": \"x509\",\n            \"type\": \"authnConfig\"\n        },\n        \"dns\": {\n            \"type\": \"dnsConfig\",\n            \"nodelocal\": {\n                \"type\": \"nodelocal\",\n                \"ip_address\": \"\",\n                \"node_selector\": null,\n                \"update_strategy\": {}\n            }\n        },\n        \"network\": {\n            \"mtu\": 0,\n            \"plugin\": \"canal\",\n            \"type\": \"networkConfig\",\n            \"options\": {\n                \"flannel_backend_type\": \"vxlan\"\n            }\n        },\n        \"ingress\": {\n            \"defaultBackend\": false,\n            \"defaultIngressClass\": true,\n            \"httpPort\": 0,\n            \"httpsPort\": 0,\n            \"provider\": \"nginx\",\n            \"type\": \"ingressConfig\"\n        },\n        \"monitoring\": {\n            \"provider\": \"metrics-server\",\n            \"replicas\": 1,\n            \"type\": \"monitoringConfig\"\n        },\n        \"services\": {\n            \"type\": \"rkeConfigServices\",\n            \"kubeApi\": {\n                \"alwaysPullImages\": false,\n                \"podSecurityPolicy\": false,\n                \"serviceNodePortRange\": \"30000-32767\",\n                \"type\": \"kubeAPIService\",\n                \"secretsEncryptionConfig\": {\n                    \"enabled\": false,\n                    \"type\": \"secretsEncryptionConfig\"\n                }\n            },\n            \"etcd\": {\n                \"creation\": \"12h\",\n                \"extraArgs\": {\n                    \"heartbeat-interval\": 500,\n                    \"election-timeout\": 5000\n                },\n                \"gid\": 0,\n                \"retention\": \"72h\",\n                \"snapshot\": false,\n                \"uid\": 0,\n                \"type\": \"etcdService\",\n                \"backupConfig\": {\n                    \"enabled\": true,\n                    \"intervalHours\": 12,\n                    \"retention\": 6,\n                    \"safeTimestamp\": false,\n                    \"timeout\": 300,\n                    \"type\": \"backupConfig\"\n                }\n            }\n        },\n        \"upgradeStrategy\": {\n            \"maxUnavailableControlplane\": \"1\",\n            \"maxUnavailableWorker\": \"10%\",\n            \"drain\": \"false\",\n            \"nodeDrainInput\": {\n                \"deleteLocalData\": false,\n                \"force\": false,\n                \"gracePeriod\": -1,\n                \"ignoreDaemonSets\": true,\n                \"timeout\": 120,\n                \"type\": \"nodeDrainInput\"\n            },\n            \"maxUnavailableUnit\": \"percentage\"\n        }\n    },\n    \"localClusterAuthEndpoint\": {\n        \"enabled\": true,\n        \"type\": \"localClusterAuthEndpoint\"\n    },\n    \"labels\": {\n        \"Name\": \"ron-cluster-member\"\n    },\n    \"annotations\": {},\n    \"scheduledClusterScan\": {\n        \"enabled\": false,\n        \"scheduleConfig\": null,\n        \"scanConfig\": null\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/cluster?_replace=true",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"cluster"
+					],
+					"query": [
+						{
+							"key": "_replace",
+							"value": "true"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "4. create-node-pool-etcd-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"node count:\", jsonData.quantity)",
+							"",
+							"",
+							"",
+							"",
+							"pm.test(\"Create etcd node successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"controlPlane\": false,\n    \"deleteNotReadyAfterSecs\": 0,\n    \"drainBeforeDelete\": false,\n    \"etcd\": true,\n    \"quantity\": 3,\n    \"worker\": false,\n    \"type\": \"nodePool\",\n    \"nodeTemplateId\": \"{{nodetemplateid}}\",\n    \"clusterId\": \"{{clusterid}}\",\n    \"hostnamePrefix\": \"rone\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodepool",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodepool"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "5. create-node-pool-cp-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"node count:\", jsonData.quantity)",
+							"",
+							"",
+							"",
+							"pm.test(\"Create controlplane node successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"controlPlane\": true,\n    \"deleteNotReadyAfterSecs\": 0,\n    \"drainBeforeDelete\": false,\n    \"etcd\": false,\n    \"quantity\": 1,\n    \"worker\": false,\n    \"type\": \"nodePool\",\n    \"nodeTemplateId\": \"{{nodetemplateid}}\",\n    \"clusterId\": \"{{clusterid}}\",\n    \"hostnamePrefix\": \"roncp\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodepool",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodepool"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "6. create-node-pool-worker-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"node count:\", jsonData.quantity)",
+							"",
+							"",
+							"pm.test(\"Create worker node successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "",
+						"value": "",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"controlPlane\": false,\n    \"deleteNotReadyAfterSecs\": 0,\n    \"drainBeforeDelete\": false,\n    \"etcd\": false,\n    \"quantity\": 3,\n    \"worker\": true,\n    \"type\": \"nodePool\",\n    \"nodeTemplateId\": \"{{nodetemplateid}}\",\n    \"clusterId\": \"{{clusterid}}\",\n    \"hostnamePrefix\": \"ronw\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodepool",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodepool"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get cluster state for logging-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var responseBodyObject = JSON.parse(responseBody);",
+							"var myclusterid = pm.environment.get('clusterid');",
+							"var cluster = responseBodyObject.data.filter((cluster) => cluster.id === myclusterid)[0];",
+							"//var mystatus = responseBodyObject.data[0].state.name;",
+							"",
+							"var mystatus = cluster.metadata.state.name;",
+							"console.log(mystatus);",
+							"console.log(pm.environment.get('clusterid'));",
+							"//var count = pm.variables.set(\"count\", 0);",
+							"var count = 0; //make count a global var so the number is preserved",
+							"var sleepBetweenTries = 300000;",
+							"console.log(count);",
+							"//develop more dynamic wait based on number of calls",
+							"",
+							"switch(mystatus){",
+							"    case \"provisioning\":",
+							"        console.log(\"sleeping while status is \" + mystatus);",
+							"        setTimeout(() => {}, sleepBetweenTries); ",
+							"        postman.setNextRequest(\"get cluster state for logging Copy\");",
+							"        count = count + 1;",
+							"        break;",
+							"    case \"waiting\":",
+							"        console.log(\"sleeping while status is \" + mystatus);",
+							"        setTimeout(() => {}, 75000); ",
+							"        postman.setNextRequest(\"get cluster state for logging Copy\");",
+							"    case \"active\":",
+							"        console.log(\"moving on to install logging chart\");",
+							"        postman.setNextRequest(\"install logging chart Copy\");",
+							"        break;",
+							"    default:",
+							"        console.log(\"something other than provisioning or active \" + mystatus);",
+							"",
+							"",
+							"",
+							"",
+							"}",
+							"",
+							"console.log(myclusterid);",
+							"",
+							"/*",
+							"while (count <5){",
+							"//if (mystatus.equals() = \"provisioning\")",
+							"if (mystatus === \"provisioning\")",
+							"{",
+							"    count = count + 1;",
+							"    //postman.setNextRequest(\"get cluster state for logging Copy\");",
+							"    console.log(count + \" in if for some reason\");",
+							"    setTimeout(function() {}, sleepBetweenTries);",
+							"    //setTimeout(() => {}, 50000); ",
+							"    postman.setNextRequest(\"get cluster state for logging Copy\");",
+							"  }",
+							"else",
+							"{",
+							"    console.log(mystatus + \" hit the else statement\");",
+							"    postman.setNextRequest(\"install logging chart Copy\");",
+							"    break;",
+							"}",
+							"}",
+							"",
+							"//  setTimeout(function () { console.log(\"waiting for:\", moment()) }, 10000)",
+							"*/",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [
+					{
+						"key": "myclusterid",
+						"value": "{{clusterid}}",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v1/management.cattle.io.cluster",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v1",
+						"management.cattle.io.cluster"
+					],
+					"query": [
+						{
+							"key": "myclusterid",
+							"value": "{{clusterid}}",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "install logging chart-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var sleepTime = 75000;",
+							"var myResponse = pm.response.code;",
+							"",
+							"switch(myResponse){",
+							"    case 200:",
+							"        console.log(\"Installed logging chart in \" + pm.environment.get('clustername')  +\" at \" + pm.environment.get('URL'));",
+							"        //console.log(pm.environment.get('URL'));",
+							"        //console.log(pm.environment.get('clustername'))",
+							"        break;",
+							"    case 201:",
+							"        console.log(\"Installed logging chart in \" + pm.environment.get('clustername') +\" at \" + pm.environment.get('URL') );",
+							"        //console.log(pm.environment.get('URL'));",
+							"        //console.log(pm.environment.get('clustername'))",
+							"        break;",
+							"    case 500:",
+							"        console.log(\"status code is 500 - REPEAT\");",
+							"        setTimeout(() => {}, sleepBetweenTries);",
+							"        postman.setNextRequest(\"install logging chart Copy\");",
+							"        break;",
+							"    default:",
+							"        console.log(\"status code != 200 or 400 or 500\");",
+							"}",
+							"",
+							"pm.test(\"Status code is 200 or 201\", function () {",
+							"    pm.response.to.have.status.i(200,201);",
+							"});",
+							"setTimeout(() => {}, sleepTime); ",
+							"//console.log(clusterid);",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"charts\": [\n        {\n            \"chartName\": \"rancher-logging-crd\",\n            \"version\": \"100.1.3+up3.17.7\",\n            \"releaseName\": \"rancher-logging-crd\",\n            \"projectId\": \"{{clusterid}}/{{projectid}}\",\n            \"values\": {\n                \"global\": {\n                    \"cattle\": {\n                        \"clusterId\": \"{{clusterid}}\",\n                        \"clusterName\": \"{{clustername}}\",\n                        \"systemDefaultRegistry\": \"\",\n                        \"url\": \"https://{{URL}}\",\n                        \"rkePathPrefix\": \"\",\n                        \"rkeWindowsPathPrefix\": \"\"\n                    },\n                    \"systemDefaultRegistry\": \"\"\n                }\n            },\n            \"annotations\": {\n                \"catalog.cattle.io/ui-source-repo-type\": \"cluster\",\n                \"catalog.cattle.io/ui-source-repo\": \"rancher-charts\"\n            }\n        },\n        {\n            \"chartName\": \"rancher-logging\",\n            \"version\": \"100.1.3+up3.17.7\",\n            \"releaseName\": \"rancher-logging\",\n            \"annotations\": {\n                \"catalog.cattle.io/ui-source-repo-type\": \"cluster\",\n                \"catalog.cattle.io/ui-source-repo\": \"rancher-charts\"\n            },\n            \"values\": {\n                \"additionalLoggingSources\": {\n                    \"rke\": {\n                        \"enabled\": true\n                    }\n                },\n                \"global\": {\n                    \"cattle\": {\n                        \"clusterId\": \"{{clusterid}}\",\n                        \"clusterName\": \"{{clustername}}\",\n                        \"systemDefaultRegistry\": \"\",\n                        \"url\": \"https://{{URL}}\",\n                        \"rkePathPrefix\": \"\",\n                        \"rkeWindowsPathPrefix\": \"\"\n                    },\n                    \"systemDefaultRegistry\": \"\"\n                }\n            }\n        }\n    ],\n    \"noHooks\": false,\n    \"timeout\": \"600s\",\n    \"wait\": true,\n    \"namespace\": \"cattle-logging-system\",\n    \"projectId\": \"{{clusterid}}/{{projectid}}\",\n    \"disableOpenAPIValidation\": false,\n    \"skipCRDs\": false\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/k8s/clusters/{{clusterid}}/v1/catalog.cattle.io.clusterrepos/rancher-charts?action=install",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"k8s",
+						"clusters",
+						"{{clusterid}}",
+						"v1",
+						"catalog.cattle.io.clusterrepos",
+						"rancher-charts"
+					],
+					"query": [
+						{
+							"key": "action",
+							"value": "install"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create logging secret-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create logging secret successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [
+					{
+						"key": "authority",
+						"value": "ronhpo.qa.rancher.space"
+					},
+					{
+						"key": "accept",
+						"value": "application/json"
+					},
+					{
+						"key": "accept-language",
+						"value": "en-US,en;q=0.9"
+					},
+					{
+						"key": "content-type",
+						"value": "application/json"
+					},
+					{
+						"key": "cookie",
+						"value": "R_PCS=light; R_LOCALE=en-us; R_REDIRECTED=true; CSRF=8890fd5fd8; R_SESS=token-4ktqg:f8vf6hkv9fp8c6zmq4rt44r4w55brnt2c6gcrth4xhcxzkcr75z27r"
+					},
+					{
+						"key": "origin",
+						"value": "https://ronhpo.qa.rancher.space"
+					},
+					{
+						"key": "referer",
+						"value": "https://ronhpo.qa.rancher.space/dashboard/c/c-58kbc/explorer/secret/create"
+					},
+					{
+						"key": "sec-ch-ua",
+						"value": "\" Not A;Brand\";v=\"99\", \"Chromium\";v=\"100\", \"Google Chrome\";v=\"100\""
+					},
+					{
+						"key": "sec-ch-ua-mobile",
+						"value": "?0"
+					},
+					{
+						"key": "sec-ch-ua-platform",
+						"value": "\"macOS\""
+					},
+					{
+						"key": "sec-fetch-dest",
+						"value": "empty"
+					},
+					{
+						"key": "sec-fetch-mode",
+						"value": "cors"
+					},
+					{
+						"key": "sec-fetch-site",
+						"value": "same-origin"
+					},
+					{
+						"key": "user-agent",
+						"value": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.88 Safari/537.36"
+					},
+					{
+						"key": "x-api-csrf",
+						"value": "8890fd5fd8"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"Opaque\",\n    \"metadata\": {\n        \"namespace\": \"cattle-logging-system\",\n        \"name\": \"elastic\"\n    },\n    \"_type\": \"Opaque\",\n    \"data\": {\n        \"password\": \"UkBuY2gzclE0\"\n    }\n}\n\n\n"
+				},
+				"url": {
+					"raw": "https://{{URL}}/k8s/clusters/{{clusterid}}/v1/secrets",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"k8s",
+						"clusters",
+						"{{clusterid}}",
+						"v1",
+						"secrets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create elastic cluster output-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"index_name\", jsonData.spec.elasticsearch.index_name)"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"logging.banzaicloud.io.clusteroutput\",\n    \"metadata\": {\n        \"namespace\": \"cattle-logging-system\",\n        \"name\": \"elastic-cluster-output\"\n    },\n    \"spec\": {\n        \"elasticsearch\": {\n            \"ssl_verify\": true,\n            \"ssl_version\": \"TLSv1_2\",\n            \"scheme\": \"http\",\n            \"host\": \"testqa-elastic.qa.rancher.space\",\n            \"port\": 9200,\n            \"index_name\": \"{{clustername}}-270-test\",\n            \"user\": \"elastic\",\n            \"password\": {\n                \"valueFrom\": {\n                    \"secretKeyRef\": {\n                        \"name\": \"elastic\",\n                        \"key\": \"password\"\n                    }\n                }\n            }\n        }\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/k8s/clusters/{{clusterid}}/v1/logging.banzaicloud.io.clusteroutputs",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"k8s",
+						"clusters",
+						"{{clusterid}}",
+						"v1",
+						"logging.banzaicloud.io.clusteroutputs"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "create elastic clusterflow-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Create cluster flow successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"type\": \"logging.banzaicloud.io.clusterflow\",\n    \"metadata\": {\n        \"namespace\": \"cattle-logging-system\",\n        \"annotations\": {\n            \"field.cattle.io/description\": \"cluster flow for elastic\"\n        },\n        \"name\": \"elastic-cluster-flow\"\n    },\n    \"spec\": {\n        \"localOutputRefs\": [],\n        \"globalOutputRefs\": [\n            \"elastic-cluster-output\"\n        ]\n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/k8s/clusters/{{clusterid}}/v1/logging.banzaicloud.io.clusterflows",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"k8s",
+						"clusters",
+						"{{clusterid}}",
+						"v1",
+						"logging.banzaicloud.io.clusterflows"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "check kibana for index-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var index_name = postman.setEnvironmentVariable('index_name');",
+							"console.log(index_name);",
+							"var statMessages = pm.response.code;",
+							"var response_code_for_test = pm.response.code;",
+							"var sleepBetweenTries = 300000;",
+							"console.log(response_code_for_test);",
+							"",
+							"if (response_code_for_test === 200){",
+							"console.log(\"passed!\"); }",
+							"",
+							"switch(statMessages){",
+							"    case 200:",
+							"        console.log(\"status code is 200 - LOGGING TESTS PASSED\");",
+							"        console.log(pm.environment.get('URL'));",
+							"        console.log(pm.environment.get('clustername'))",
+							"        break;",
+							"    case 404:",
+							"        console.log(\"status code is 404 - sleeping before retrying\");",
+							"        setTimeout(() => {}, sleepBetweenTries);",
+							"        postman.setNextRequest(\"check kibana for index Copy\");",
+							"        break;",
+							"    default:",
+							"        console.log(\"status code != 200 or 400\")",
+							"",
+							"",
+							"",
+							"",
+							"}",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "testqa-elastic.qa.rancher.space:9200/_cat/indices/{{index_name}}?v=true&s=index&pretty",
+					"host": [
+						"testqa-elastic",
+						"qa",
+						"rancher",
+						"space"
+					],
+					"port": "9200",
+					"path": [
+						"_cat",
+						"indices",
+						"{{index_name}}"
+					],
+					"query": [
+						{
+							"key": "v",
+							"value": "true"
+						},
+						{
+							"key": "s",
+							"value": "index"
+						},
+						{
+							"key": "pretty",
+							"value": null
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rhel87-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"ami-0defbb5087b2b63c1\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3a.2xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"90\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"ec2-user\",\n        \"subnetId\": null,\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"rhel87-node-template\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "oracle87-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"ami-054a49e0c0c7fce5c\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3a.2xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"90\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"cloud-user\",\n        \"subnetId\": null,\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"oracle87-node-template\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "rocky87-node-template-exp",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);",
+							"",
+							"postman.setEnvironmentVariable(\"nodetemplateid\", jsonData.id)",
+							"",
+							"pm.test(\"Create node template successful\", function () {",
+							"    pm.expect(pm.response.code).to.be.oneOf([201, 202]);",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "{{token}}",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"useInternalIpAddress\": true,\n    \"type\": \"nodeTemplate\",\n    \"engineInstallURL\": \"https://releases.rancher.com/install-docker/20.10.sh\",\n    \"engineRegistryMirror\": [],\n    \"amazonec2Config\": {\n        \"accessKey\": \"\",\n        \"ami\": \"ami-05ab2eb74c93eb441\",\n        \"blockDurationMinutes\": \"0\",\n        \"deviceName\": \"\",\n        \"encryptEbsVolume\": false,\n        \"endpoint\": \"\",\n        \"httpEndpoint\": \"enabled\",\n        \"httpTokens\": \"optional\",\n        \"iamInstanceProfile\": \"\",\n        \"insecureTransport\": false,\n        \"instanceType\": \"t3a.2xlarge\",\n        \"keypairName\": \"\",\n        \"kmsKey\": \"\",\n        \"monitoring\": false,\n        \"privateAddressOnly\": false,\n        \"region\": \"us-east-2\",\n        \"requestSpotInstance\": false,\n        \"retries\": \"5\",\n        \"rootSize\": \"90\",\n        \"secretKey\": \"\",\n        \"securityGroup\": [\n            \"open-all\"\n        ],\n        \"securityGroupReadonly\": false,\n        \"sessionToken\": \"\",\n        \"spotPrice\": \"0.50\",\n        \"sshKeyContents\": \"\",\n        \"sshUser\": \"rocky\",\n        \"subnetId\": null,\n        \"tags\": \"\",\n        \"useEbsOptimizedInstance\": false,\n        \"usePrivateAddress\": false,\n        \"userdata\": \"\",\n        \"volumeType\": \"gp2\",\n        \"vpcId\": \"vpc-bfccf4d7\",\n        \"zone\": \"a\",\n        \"type\": \"amazonec2Config\"\n    },\n    \"namespaceId\": \"fixme\",\n    \"cloudCredentialId\": \"{{cloudcredentialid}}\",\n    \"labels\": {},\n    \"name\": \"rocky87-node-template\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://{{URL}}/v3/nodetemplate",
+					"protocol": "https",
+					"host": [
+						"{{URL}}"
+					],
+					"path": [
+						"v3",
+						"nodetemplate"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
